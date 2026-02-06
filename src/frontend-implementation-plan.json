@@ -1,0 +1,96 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Browser-only Replicate/Proxy provider support with configurable auth modes",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add a selectable “Replicate / Proxy Endpoint” provider option in the generation form that uses browser fetch (no canister HTTP calls, no backend secrets).",
+      "acceptanceCriteria": [
+        "The provider dropdown includes a selectable option for “Replicate / Proxy Endpoint” (wording can be adjusted but must clearly indicate Replicate/proxy usage).",
+        "Selecting the new provider uses the same client-side generation flow as Custom API (browser fetch) and does not introduce any backend HTTP requests.",
+        "The backend can store generation requests created with the new provider value without authorization changes beyond existing user checks."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Generator/GenerationForm.tsx",
+          "operation": "modify",
+          "description": "Update the provider dropdown options to include the Provider.ReplicateOrProxy choice labeled “Replicate / Proxy Endpoint”, and update validation/submission logic so this provider is treated as supported and triggers the existing browser-based generation flow (no backend HTTP calls). Ensure provider values align with frontend/src/backend.d.ts (use Provider.ReplicateOrProxy instead of any non-existent provider enum values)."
+        },
+        {
+          "path": "frontend/src/hooks/useCustomApiGeneration.ts",
+          "operation": "modify",
+          "description": "Update the request creation call to store the new provider value (Provider.ReplicateOrProxy) when running the browser-based generation flow, while keeping all network calls executed in the browser via the existing custom API client."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Update API configuration UI helper text to describe proxy/public endpoint contract and clarify browser-only calling with no canister-stored secrets.",
+      "acceptanceCriteria": [
+        "The configuration panel text clearly states that calls are made from the browser and that secrets should not be stored in the canister.",
+        "The configuration panel describes that the endpoint may be a public Replicate endpoint or a proxy endpoint that returns a public image_url."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Generator/CustomApiConfigFields.tsx",
+          "operation": "modify",
+          "description": "Revise the configuration helper text to explicitly describe proxy/public endpoints (including Replicate-hosted/public or serverless proxy that injects secrets server-side), the expected request/response contract (POST JSON with prompt; JSON response containing image_url), and emphasize that calls are made from the browser and secrets must not be stored in the canister."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Support Replicate/proxy authorization patterns by letting users choose Authorization header mode and applying it in browser fetch calls.",
+      "acceptanceCriteria": [
+        "When “No auth” is selected, no Authorization header is sent.",
+        "When “Bearer” is selected, requests send `Authorization: Bearer <key>`.",
+        "When “Token” is selected, requests send `Authorization: Token <key>`.",
+        "Existing Custom API behavior remains functional (backwards compatible defaults)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCustomApiConfig.ts",
+          "operation": "modify",
+          "description": "Extend the locally persisted config model to include an authorizationHeaderMode field (No auth / Bearer / Token) with a backwards-compatible default that preserves current behavior. Keep persistence in localStorage consistent with existing behavior."
+        },
+        {
+          "path": "frontend/src/components/Generator/CustomApiConfigFields.tsx",
+          "operation": "modify",
+          "description": "Add UI controls to select authorization header mode (No auth, Bearer, Token) and update the explanatory copy so users understand how headers will be applied in browser requests. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/services/customApiClient.ts",
+          "operation": "modify",
+          "description": "Update the client-side request builder to accept the selected authorization header mode and conditionally set the Authorization header accordingly (none, Bearer, Token) when performing fetch from the browser."
+        },
+        {
+          "path": "frontend/src/hooks/useCustomApiGeneration.ts",
+          "operation": "modify",
+          "description": "Pass the configured authorization header mode into the custom API client so the browser fetch uses the user-selected auth pattern while keeping the rest of the generation flow unchanged."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Persist new proxy/Replicate config fields in localStorage only and ensure keys/tokens are never sent to the Motoko backend.",
+      "acceptanceCriteria": [
+        "New config fields persist across reloads for the same browser profile.",
+        "No backend methods are added that accept/store API keys or tokens.",
+        "Network inspection shows only direct browser-to-endpoint calls include the token/header (if configured)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCustomApiConfig.ts",
+          "operation": "modify",
+          "description": "Ensure all new fields (e.g., authorizationHeaderMode) are stored only in localStorage and are not included in any actor calls; keep the storage key stable or provide a safe migration path so existing saved config remains usable."
+        },
+        {
+          "path": "frontend/src/hooks/useCustomApiGeneration.ts",
+          "operation": "modify",
+          "description": "Confirm that createGenerationRequest and updateGenerationRequestStatus calls only transmit prompt/provider/status/result and never include API keys/tokens; keep keys/tokens exclusively within the browser-side callCustomApi invocation."
+        }
+      ]
+    }
+  ]
+}

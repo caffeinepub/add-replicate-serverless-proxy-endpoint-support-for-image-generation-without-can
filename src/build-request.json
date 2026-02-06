@@ -1,0 +1,95 @@
+{
+  "kind": "build_request",
+  "title": "Add Replicate/serverless-proxy endpoint support for image generation without canister-side auth",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Add a first-class generation option for using a serverless proxy (e.g., a Vercel function) or a Replicate-hosted/public HTTP endpoint by allowing the user to select a “Replicate / Proxy Endpoint” provider in the Generation form, while keeping all HTTP calls executed from the browser (no canister HTTP calls and no backend-stored secrets).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Integrate image generation via a serverless proxy like Vercel function or Replicate's public endpoint that doesn't need backend auth in canister."
+        ]
+      },
+      "acceptanceCriteria": [
+        "The provider dropdown includes a selectable option for “Replicate / Proxy Endpoint” (wording can be adjusted but must clearly indicate Replicate/proxy usage).",
+        "Selecting the new provider uses the same client-side generation flow as Custom API (browser fetch) and does not introduce any backend HTTP requests.",
+        "The backend can store generation requests created with the new provider value without authorization changes beyond existing user checks."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Extend the API configuration UI to explicitly support proxy/public endpoints by updating the configuration helper text to describe the expected contract (POST JSON {\"prompt\":\"...\"} and JSON response containing an image URL), and include clear English guidance that this endpoint may be a serverless proxy that injects secrets server-side (so the app does not require canister-side auth).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "serverless proxy like Vercel function",
+          "public endpoint that doesn't need backend auth in canister"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The configuration panel text clearly states that calls are made from the browser and that secrets should not be stored in the canister.",
+        "The configuration panel describes that the endpoint may be a public Replicate endpoint or a proxy endpoint that returns a public image_url."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Update the custom API request client to support Replicate/proxy authentication patterns by allowing the user to choose an authorization header mode (at minimum: no auth, “Authorization: Bearer <key>”, and “Authorization: Token <key>”) and apply the selected mode when performing the browser fetch.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Replicate's public endpoint"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When “No auth” is selected, no Authorization header is sent.",
+        "When “Bearer” is selected, requests send `Authorization: Bearer <key>`.",
+        "When “Token” is selected, requests send `Authorization: Token <key>`.",
+        "Existing Custom API behavior remains functional (backwards compatible defaults)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Persist any new proxy/Replicate configuration fields client-side only (localStorage, consistent with the existing Custom API config behavior) and ensure no API keys/tokens are ever sent to the Motoko backend canister.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "doesn't need backend auth in canister"
+        ]
+      },
+      "acceptanceCriteria": [
+        "New config fields persist across reloads for the same browser profile.",
+        "No backend methods are added that accept/store API keys or tokens.",
+        "Network inspection shows only direct browser-to-endpoint calls include the token/header (if configured)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not implement serverless functions (e.g., Vercel) inside the ICP canister; the app must only call user-provided HTTP endpoints from the browser.",
+    "Do not store or transmit API keys/tokens to the Motoko backend canister.",
+    "Respect the single-actor Motoko backend architecture (all Motoko logic remains in backend/main.mo).",
+    "Do not edit files under frontend/src/components/ui or any frontend immutablePaths listed in SYSTEM_CONTEXT."
+  ],
+  "nonGoals": [
+    "Deploying or generating a Vercel function/serverless proxy implementation.",
+    "Adding canister-side HTTPS outcalls or canister-managed secret storage.",
+    "Adding third-party authentication beyond Internet Identity."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

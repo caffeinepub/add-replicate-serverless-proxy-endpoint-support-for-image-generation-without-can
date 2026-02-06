@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 19,
+  "summary": "ICP starter app scaffolded with Motoko backend (authorization + blob storage) and a React/Vite/Tailwind frontend featuring Internet Identity login, profile setup, image generation via configurable custom API, and a gallery/preview UI. Includes build/deploy templates and generated app assets.",
+  "existing_features": [
+    {
+      "id": "IF-1",
+      "title": "Motoko backend canister scaffold",
+      "synonyms": [
+        "backend core",
+        "main canister"
+      ],
+      "description": "Core backend canister wiring with shared infrastructure and module organization.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-2",
+      "title": "Authorization & access control module",
+      "synonyms": [
+        "auth mixin",
+        "access-control"
+      ],
+      "description": "Backend authorization mixin and access-control utilities for guarding calls and managing permissions.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-3",
+      "title": "Blob storage canister/module",
+      "synonyms": [
+        "storage",
+        "blob-storage"
+      ],
+      "description": "Backend blob storage functionality for storing and retrieving binary assets (e.g., images).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-4",
+      "title": "Internet Identity authentication (frontend)",
+      "synonyms": [
+        "II login",
+        "InternetIdentity"
+      ],
+      "description": "Frontend authentication integration via Internet Identity, including login button and session handling.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-5",
+      "title": "User profile setup flow",
+      "synonyms": [
+        "profile modal",
+        "profile setup"
+      ],
+      "description": "UI modal and hooks for creating/loading the current user's profile after authentication.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-6",
+      "title": "Image generation form with custom API configuration",
+      "synonyms": [
+        "generation form",
+        "custom API config"
+      ],
+      "description": "Generator UI and supporting hooks/services to call a configurable external/custom image generation API.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-7",
+      "title": "Gallery grid, generation cards, and image preview",
+      "synonyms": [
+        "gallery",
+        "image preview"
+      ],
+      "description": "Frontend components to display generated images, show generation metadata/cards, and preview images.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-8",
+      "title": "Frontend app shell and layout",
+      "synonyms": [
+        "app layout",
+        "header"
+      ],
+      "description": "Application layout components (header/layout) and main App wiring for the UI.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-9",
+      "title": "Typed backend actor integration",
+      "synonyms": [
+        "useActor",
+        "backend declarations"
+      ],
+      "description": "Frontend typed bindings to the backend canister (did JS/TS) and hooks for actor creation/queries.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-10",
+      "title": "Build/deploy template for ICP app (React + Motoko)",
+      "synonyms": [
+        "build-template",
+        "docker",
+        "icp.yaml"
+      ],
+      "description": "Project template including Dockerfile, deploy scripts, workspace config, and asset resize/prune scripts.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-11",
+      "title": "shadcn/ui component library integrated",
+      "synonyms": [
+        "ui kit",
+        "shadcn"
+      ],
+      "description": "Prebuilt shadcn/ui component set and lint rules included for consistent UI development.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-first-class-generation-option-for-using-a-serverless-proxy-e-g-a-vercel-function-or-a-replicate-hosted-public-http-endpoint-by-allowing-the-user-to-select-a-replicate-proxy-endpoint-provider-in-the-generation-form-while-keeping-all-http-calls-executed-from-the-browser-no-canister-http-calls-and-no-backend-stored-secrets",
+      "title": "Add a first-class generation option for using a serverless proxy (e.g., a Vercel function) or a Replicate-hosted/public HTTP endpoint by allowing the user to select a “Replicate / Proxy Endpoint” provider in the Generation form, while keeping all HTTP calls executed from the browser (no canister HTTP calls and no backend-stored secrets).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-api-configuration-ui-to-explicitly-support-proxy-public-endpoints-by-updating-the-configuration-helper-text-to-describe-the-expected-contract-post-json-prompt-and-json-response-containing-an-image-url-and-include-clear-english-guidance-that-this-endpoint-may-be-a-serverless-proxy-that-injects-secrets-server-side-so-the-app-does-not-require-canister-side-auth",
+      "title": "Extend the API configuration UI to explicitly support proxy/public endpoints by updating the configuration helper text to describe the expected contract (POST JSON {\"prompt\":\"...\"} and JSON response containing an image URL), and include clear English guidance that this endpoint may be a serverless proxy that injects secrets server-side (so the app does not require canister-side auth).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-custom-api-request-client-to-support-replicate-proxy-authentication-patterns-by-allowing-the-user-to-choose-an-authorization-header-mode-at-minimum-no-auth-authorization-bearer-key-and-authorization-token-key-and-apply-the-selected-mode-when-performing-the-browser-fetch",
+      "title": "Update the custom API request client to support Replicate/proxy authentication patterns by allowing the user to choose an authorization header mode (at minimum: no auth, “Authorization: Bearer <key>”, and “Authorization: Token <key>”) and apply the selected mode when performing the browser fetch.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-any-new-proxy-replicate-configuration-fields-client-side-only-localstorage-consistent-with-the-existing-custom-api-config-behavior-and-ensure-no-api-keys-tokens-are-ever-sent-to-the-motoko-backend-canister",
+      "title": "Persist any new proxy/Replicate configuration fields client-side only (localStorage, consistent with the existing Custom API config behavior) and ensure no API keys/tokens are ever sent to the Motoko backend canister.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Integrate image generation via a serverless proxy (e.g., Vercel function) or Replicate public endpoint, avoiding backend canister auth/HTTP calls.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "architectural_notes": [
+    "Backend implemented in Motoko with modular authorization (MixinAuthorization/access-control) and blob storage modules.",
+    "Frontend is React + Vite + Tailwind, using shadcn/ui component library.",
+    "Authentication uses Internet Identity on the frontend; actor/hook pattern used for canister calls.",
+    "Custom image generation is performed via a configurable external API client (customApiClient) with related hooks.",
+    "Build/deploy tooling includes Docker and ICP templates plus scripts for resizing/pruning generated assets.",
+    "Authorization and blob-storage backend components updated to v4.0.0.",
+    "Core infrastructure component updated to v1.0.2.",
+    "Build template for React + Motoko exported/standardized as component:build-template-react v1.0.0 (includes ICP CLI/github export tooling).",
+    "Image generation should be routed via client-side fetch and/or a serverless proxy (e.g., Vercel/Replicate endpoint), avoiding real HTTP calls from the backend canister."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "generatedImages": [
+    {
+      "filename": "frontend/public/assets/generated/app-bg-texture.dim_1600x900.png",
+      "description": "Generated application background texture asset (1600x900).",
+      "targetWidth": 1600,
+      "targetHeight": 900
+    },
+    {
+      "filename": "frontend/public/assets/generated/app-logo.dim_512x512.png",
+      "description": "Generated application logo asset (512x512).",
+      "targetWidth": 512,
+      "targetHeight": 512
+    }
+  ],
+  "projectName": "Add Replicate/serverless-proxy endpoint support for image generation without canister-side auth",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

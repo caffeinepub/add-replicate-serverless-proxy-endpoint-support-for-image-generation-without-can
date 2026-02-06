@@ -1,0 +1,21 @@
+{
+  "frontend/src/App.tsx": "Main application component that renders the generator form and gallery without any authentication gating or profile setup flow.",
+  "frontend/src/hooks/useCurrentUserProfile.ts": "React Query hook for fetching the current user's profile with proper actor dependency handling to prevent modal flash on load.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for backend operations including caller-based generation requests that work for both anonymous and authenticated users, with automatic polling for pending requests.",
+  "frontend/src/components/Auth/LoginButton.tsx": "Authentication button component that handles Internet Identity login/logout with loading states and query cache clearing.",
+  "frontend/src/components/Auth/ProfileSetupModal.tsx": "Modal dialog for first-time user profile setup that prompts for a name and saves it to the backend.",
+  "frontend/src/components/Generator/GenerationForm.tsx": "Image generation form with provider selection that supports Replicate/Proxy Endpoint provider, using browser-based generation flow with defensive validation.",
+  "frontend/src/components/Generator/CustomApiConfigFields.tsx": "Configuration UI for Replicate/Proxy endpoints with URL input, authorization mode selector (No auth/Bearer/Token), and API key field, clarifying browser-only calls and no canister storage.",
+  "frontend/src/hooks/useCustomApiConfig.ts": "Hook for managing Replicate/Proxy endpoint configuration in localStorage with URL validation, authorization header mode selection, and backwards-compatible defaults.",
+  "frontend/src/hooks/useCustomApiGeneration.ts": "Hook orchestrating Replicate/Proxy API generation flow with client-side fetch calls using Provider.ReplicateOrProxy, proper error handling, status updates, and immediate gallery refresh.",
+  "frontend/src/services/customApiClient.ts": "Client service for Replicate/Proxy API requests that performs browser fetch calls with configurable authorization modes (none/Bearer/Token) and always returns URL-based ExternalBlob.",
+  "frontend/src/components/Gallery/GalleryGrid.tsx": "Responsive grid layout for displaying generation history with loading, empty, and error states, working seamlessly with anonymous usage.",
+  "frontend/src/components/Gallery/GenerationCard.tsx": "Card component displaying individual generation requests with preview, metadata, status indicators, and download functionality for succeeded images with visible error messages, using Provider.ReplicateOrProxy label.",
+  "frontend/src/components/Gallery/ImagePreview.tsx": "Image preview component rendering ExternalBlob images using direct URLs with error handling for failed image loads.",
+  "frontend/src/utils/downloadImage.ts": "Utility function for downloading generated images with descriptive filenames based on provider (including ReplicateOrProxy), timestamp, and request ID.",
+  "frontend/src/components/Layout/AppLayout.tsx": "Main layout wrapper with header, subtle background texture, and footer containing attribution.",
+  "frontend/src/components/Layout/AppHeader.tsx": "Application header with logo and title, no longer displaying authentication controls or personalized greeting.",
+  "frontend/src/index.css": "Global styles with warm-neutral OKLCH color system for both light and dark modes, avoiding blue/purple as primary colors.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended color tokens, border radius, and animation utilities matching the warm-neutral design theme.",
+  "frontend/src/utils/placeholderImages.ts": "Exports a constant for the static placeholder image URL used when Custom API returns bytes or base64 data instead of a URL."
+}

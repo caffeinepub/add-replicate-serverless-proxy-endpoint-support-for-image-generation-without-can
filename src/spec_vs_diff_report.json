@@ -1,0 +1,39 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-04T15:49:34.792Z",
+  "summary": "Diff implements Replicate/Proxy provider option, browser-based custom API generation with selectable Authorization header modes, and client-side-only persistence of new config fields. Backend only extends provider enum and supports storing requests with the new provider.",
+  "missing_requirements": [],
+  "hallucinated_features": [
+    {
+      "description": "Added a Motoko state migration that remaps the old #CustomApi provider to the new #ReplicateOrProxy provider.",
+      "reason": "BuildRequest requests adding a new provider option and storing requests, but does not explicitly request a canister migration module or automatic remapping of existing provider values.",
+      "evidence": [
+        "backend/migration.mo",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Custom API client substitutes a placeholder image URL when the endpoint returns raw image bytes or base64 instead of using/handling the returned image content.",
+      "reason": "REQ-2 specifies the expected contract (JSON {prompt} -> JSON with image_url). Handling image bytes/base64 and returning a placeholder URL is additional behavior not requested.",
+      "evidence": [
+        "frontend/src/services/customApiClient.ts",
+        "frontend/src/utils/placeholderImages.ts (mentioned in frontend-file-summaries.txt)"
+      ]
+    }
+  ],
+  "confidence": 0.82,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/components/Gallery/GenerationCard.tsx",
+    "frontend/src/components/Generator/CustomApiConfigFields.tsx",
+    "frontend/src/components/Generator/GenerationForm.tsx",
+    "frontend/src/hooks/useCustomApiConfig.ts",
+    "frontend/src/hooks/useCustomApiGeneration.ts",
+    "frontend/src/services/customApiClient.ts",
+    "frontend/src/utils/downloadImage.ts",
+    "project_state.json"
+  ]
+}

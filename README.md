@@ -1,2 +1,3 @@
-# add-replicate-serverless-proxy-endpoint-support-for-image-generation-without-can
-Exported from Caffeine project: Add Replicate/serverless-proxy endpoint support for image generation without canister-side auth
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

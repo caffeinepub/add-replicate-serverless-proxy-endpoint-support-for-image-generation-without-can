@@ -1,0 +1,90 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-a-first-class-generation-option-for-using-a-serverless-proxy-e-g-a-vercel-function-or-a-replicate-hosted-public-http-endpoint-by-allowing-the-user-to-select-a-replicate-proxy-endpoint-provider-in-the-generation-form-while-keeping-all-http-calls-executed-from-the-browser-no-canister-http-calls-and-no-backend-stored-secrets",
+      "featureTitle": "Add a first-class generation option for using a serverless proxy (e.g., a Vercel function) or a Replicate-hosted/public HTTP endpoint by allowing the user to select a “Replicate / Proxy Endpoint” provider in the Generation form, while keeping all HTTP calls executed from the browser (no canister HTTP calls and no backend-stored secrets).",
+      "files": [
+        "frontend/src/components/Generator/GenerationForm.tsx",
+        "frontend/src/hooks/useCustomApiGeneration.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-extend-the-api-configuration-ui-to-explicitly-support-proxy-public-endpoints-by-updating-the-configuration-helper-text-to-describe-the-expected-contract-post-json-prompt-and-json-response-containing-an-image-url-and-include-clear-english-guidance-that-this-endpoint-may-be-a-serverless-proxy-that-injects-secrets-server-side-so-the-app-does-not-require-canister-side-auth",
+      "featureTitle": "Extend the API configuration UI to explicitly support proxy/public endpoints by updating the configuration helper text to describe the expected contract (POST JSON {\"prompt\":\"...\"} and JSON response containing an image URL), and include clear English guidance that this endpoint may be a serverless proxy that injects secrets server-side (so the app does not require canister-side auth).",
+      "files": [
+        "frontend/src/components/Generator/CustomApiConfigFields.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-custom-api-request-client-to-support-replicate-proxy-authentication-patterns-by-allowing-the-user-to-choose-an-authorization-header-mode-at-minimum-no-auth-authorization-bearer-key-and-authorization-token-key-and-apply-the-selected-mode-when-performing-the-browser-fetch",
+      "featureTitle": "Update the custom API request client to support Replicate/proxy authentication patterns by allowing the user to choose an authorization header mode (at minimum: no auth, “Authorization: Bearer <key>”, and “Authorization: Token <key>”) and apply the selected mode when performing the browser fetch.",
+      "files": [
+        "frontend/src/components/Generator/CustomApiConfigFields.tsx",
+        "frontend/src/hooks/useCustomApiConfig.ts",
+        "frontend/src/hooks/useCustomApiGeneration.ts",
+        "frontend/src/services/customApiClient.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-persist-any-new-proxy-replicate-configuration-fields-client-side-only-localstorage-consistent-with-the-existing-custom-api-config-behavior-and-ensure-no-api-keys-tokens-are-ever-sent-to-the-motoko-backend-canister",
+      "featureTitle": "Persist any new proxy/Replicate configuration fields client-side only (localStorage, consistent with the existing Custom API config behavior) and ensure no API keys/tokens are ever sent to the Motoko backend canister.",
+      "files": [
+        "frontend/src/hooks/useCustomApiConfig.ts",
+        "frontend/src/hooks/useCustomApiGeneration.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
